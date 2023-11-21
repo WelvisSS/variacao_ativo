@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'bridge.dart';
 import 'core/inject/inject.dart';
+import 'core/theme/app_colors.dart';
+import 'core/theme/app_themes.dart';
 import 'features/active_variation/presentation/ui/pages/home_page.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   Inject.initialize();
@@ -14,13 +17,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFF2C77BB),
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: ColorsApp.i.secundary,
     ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Variacao Ativo',
-      theme: ThemeData.light(),
+      theme: theme(),
       home: const CommunicationWithNativeWidget(),
     );
   }

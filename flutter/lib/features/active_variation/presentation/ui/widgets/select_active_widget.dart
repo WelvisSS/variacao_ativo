@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/utils/actives_list.utils.dart';
 
 class SelectActiveWidget extends StatefulWidget {
@@ -32,14 +34,19 @@ class SelectActiveWidgetState extends State<SelectActiveWidget> {
             items: actives.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value),
+                child: Text(
+                  value,
+                  style: const TextStyle(
+                    color: Colors.green,
+                  ),
+                ),
               );
             }).toList(),
           ),
           const SizedBox(width: 5.0),
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF2C77BB),
+              color: ColorsApp.i.secundary,
               borderRadius: BorderRadius.circular(10.0),
             ),
             margin: const EdgeInsets.only(left: 10),

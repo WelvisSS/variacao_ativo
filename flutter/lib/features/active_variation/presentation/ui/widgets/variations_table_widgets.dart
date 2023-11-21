@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/theme/app_colors.dart';
+
 class TableWidget extends StatelessWidget {
   final List<double?> prices;
   final List<String> datas;
@@ -20,40 +22,43 @@ class TableWidget extends StatelessWidget {
       d2.add((prices[i]! - prices[0]!).toStringAsFixed(2));
     }
 
-    Size size = MediaQuery.of(context).size;
-
-    return SizedBox(
-      height: size.height > 700 ? 280 : 230,
-      width: size.width * .98,
+    return Expanded(
       child: ListView(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: [
           DataTable(
+            headingRowColor: MaterialStateColor.resolveWith(
+              (states) => ColorsApp.i.secundary,
+            ),
             columns: const [
-              DataColumn(label: Text('Data')),
-              DataColumn(label: Text('Valor')),
-              DataColumn(label: Text('D-1')),
-              DataColumn(label: Text('D-D1')),
+              DataColumn(
+                  label: Text('Data', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('Valor', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('D-1', style: TextStyle(color: Colors.white))),
+              DataColumn(
+                  label: Text('D-D1', style: TextStyle(color: Colors.white))),
             ],
             rows: [
               for (var entry in prices.asMap().entries)
                 DataRow(cells: [
                   DataCell(Text(
                     datas[entry.key],
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
                   )),
                   DataCell(Text(
                     "R\$ ${entry.value}",
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
                   )),
                   DataCell(Text(
                     d1[entry.key] == "-" ? d1[entry.key] : "${d1[entry.key]}%",
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
                   )),
                   DataCell(Text(
                     d2[entry.key] == "-" ? d2[entry.key] : "${d2[entry.key]}%",
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
                   )),
                 ]),
               // Adicione mais linhas conforme necessário

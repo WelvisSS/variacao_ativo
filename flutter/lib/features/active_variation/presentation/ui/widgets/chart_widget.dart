@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../../../core/theme/app_colors.dart';
+
 class LineChartWidget extends StatelessWidget {
   final List<double?> values;
   const LineChartWidget({
@@ -27,15 +29,41 @@ class LineChartWidget extends StatelessWidget {
         SizedBox(
           height: size.height > 700 ? 300 : 200,
           child: SfCartesianChart(
-            primaryXAxis: CategoryAxis(title: AxisTitle(text: 'Dias Corridos')),
-            primaryYAxis: NumericAxis(title: AxisTitle(text: 'Variação em %')),
+            primaryXAxis: CategoryAxis(
+              title: AxisTitle(
+                text: 'Dias Corridos',
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              labelStyle: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            primaryYAxis: NumericAxis(
+              title: AxisTitle(
+                text: 'Variação em %',
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              labelStyle: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
             series: <ChartSeries>[
               LineSeries<_ChartData, String>(
+                pointColorMapper: (_, __) => ColorsApp.i.secundary,
                 dataSource: _getChartData(values.length, values),
                 xValueMapper: (_ChartData data, _) => data.day,
                 yValueMapper: (_ChartData data, _) => data.value,
                 markerSettings: const MarkerSettings(isVisible: true),
-                dataLabelSettings: const DataLabelSettings(isVisible: true),
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: false,
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
@@ -48,7 +76,7 @@ class LineChartWidget extends StatelessWidget {
             children: [
               const Text(
                 "Rentabilidade: ",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
               Text(
                 "${calcularSoma(values) > 0 ? "+" : ""}${calcularSoma(values)}%",
