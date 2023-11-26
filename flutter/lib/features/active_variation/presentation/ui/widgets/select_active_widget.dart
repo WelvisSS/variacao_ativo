@@ -52,8 +52,8 @@ class SelectActiveWidgetState extends State<SelectActiveWidget> {
             margin: const EdgeInsets.only(left: 10),
             height: 40,
             child: IconButton(
-              onPressed: () {
-                widget.changeActive(activeName: selectedAsset);
+              onPressed: () async {
+                await widget.changeActive(activeName: selectedAsset);
               },
               icon: const Icon(Icons.search_rounded),
               color: Colors.white,

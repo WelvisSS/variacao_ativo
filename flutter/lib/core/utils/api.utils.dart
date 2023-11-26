@@ -1,8 +1,8 @@
 class API {
   // ignore: non_constant_identifier_names
   static String REQUEST_VARIATIONS_BY_ACTIVE_IN_PERIOD(
-          String activeName, int period1, int period2) =>
-      'v8/finance/chart/$activeName.SA?period1=$period1&period2=$period2';
+          String activeName, String interval, int period1, int period2) =>
+      'v8/finance/chart/$activeName.SA?interval=$interval&period1=$period1&period2=$period2';
 }
 
 List<DateTime> calcularDatas() {

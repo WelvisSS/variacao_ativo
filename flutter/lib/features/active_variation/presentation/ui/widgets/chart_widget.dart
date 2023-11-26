@@ -1,113 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:mrx_charts/mrx_charts.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../domain/entities/quote_entity.dart';
 
 class LineChartWidget extends StatelessWidget {
-  final List<double?> values;
+  final List<int?> timestamps;
+  final QuoteEntity quote;
   const LineChartWidget({
     Key? key,
-    required this.values,
+    required this.quote,
+    required this.timestamps,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Calculando a rentabilidade dos pregões
-    double calcularSoma(List<double?> lista) {
-      double soma = 0;
-      for (double? elemento in lista) {
-        if (elemento != null) {
-          soma += elemento;
-        }
-      }
-      return double.parse(soma.toStringAsFixed(2));
+    String timestampToDate(int timestamp) {
+      var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+      return '${date.day}/${date.month}';
     }
 
-    Size size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        SizedBox(
-          height: size.height > 700 ? 300 : 200,
-          child: SfCartesianChart(
-            primaryXAxis: CategoryAxis(
-              title: AxisTitle(
-                text: 'Dias Corridos',
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              labelStyle: const TextStyle(
-                color: Colors.white,
-              ),
+    return Chart(
+      layers: [
+        ChartGridLayer(
+          settings: ChartGridSettings(
+            x: ChartGridSettingsAxis(
+              color: Colors.white.withOpacity(0.2),
+              frequency: 3,
+              max: 30,
+              min: 0,
             ),
-            primaryYAxis: NumericAxis(
-              title: AxisTitle(
-                text: 'Variação em %',
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              labelStyle: const TextStyle(
-                color: Colors.white,
-              ),
+            y: ChartGridSettingsAxis(
+              color: Colors.white.withOpacity(0.2),
+              frequency: (quote.maxValue! - quote.minValue!) / 3,
+              max: quote.maxValue!,
+              min: quote.minValue!,
             ),
-            series: <ChartSeries>[
-              LineSeries<_ChartData, String>(
-                pointColorMapper: (_, __) => ColorsApp.i.secundary,
-                dataSource: _getChartData(values.length, values),
-                xValueMapper: (_ChartData data, _) => data.day,
-                yValueMapper: (_ChartData data, _) => data.value,
-                markerSettings: const MarkerSettings(isVisible: true),
-                dataLabelSettings: const DataLabelSettings(
-                  isVisible: false,
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.only(
-            left: 10,
-          ),
-          child: Row(
-            children: [
-              const Text(
-                "Rentabilidade: ",
-                style: TextStyle(fontSize: 16, color: Colors.white),
+        ChartAxisLayer(
+          settings: ChartAxisSettings(
+            x: ChartAxisSettingsAxis(
+              frequency: 3,
+              max: 29,
+              min: 0,
+              textStyle: TextStyle(
+                color: Colors.white.withOpacity(0.6),
+                fontSize: 10.0,
               ),
-              Text(
-                "${calcularSoma(values) > 0 ? "+" : ""}${calcularSoma(values)}%",
-                style: TextStyle(
-                  color: calcularSoma(values) > 0 ? Colors.green : Colors.red,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            y: ChartAxisSettingsAxis(
+              frequency: (quote.maxValue! - quote.minValue!) / 3,
+              max: quote.maxValue!,
+              min: quote.minValue!,
+              textStyle: TextStyle(
+                color: Colors.white.withOpacity(0.6),
+                fontSize: 10.0,
               ),
-            ],
+            ),
           ),
+          labelX: (value) => timestampToDate(timestamps[value.toInt()]!),
+          labelY: (value) => value.toInt().toString(),
         ),
+        ChartCandleLayer(
+          items: [
+            for (int i = 0; i < quote.close.length; i++)
+              ChartCandleDataItem(
+                color: quote.close[i]! >= quote.open[i]!
+                    ? ColorsApp.i.candlePositiveColor
+                    : ColorsApp.i.candleNegativeColor,
+                value1: ChartCandleDataItemValue(
+                  max: quote.open[i]!,
+                  min: quote.close[i]!,
+                ),
+                value2: ChartCandleDataItemValue(
+                  max: quote.high[i]!,
+                  min: quote.low[i]!,
+                ),
+                x: i.toDouble(),
+              )
+          ],
+          settings: const ChartCandleSettings(),
+        )
       ],
     );
   }
-}
-
-// Responsável pela montagem/marcação das posições do gráfico
-class _ChartData {
-  final String day;
-  final double value;
-
-  _ChartData(this.day, this.value);
-}
-
-List<_ChartData> _getChartData(int days, List<double?> values) {
-  final List<_ChartData> chartData = [];
-
-  for (int i = 1; i <= days; i++) {
-    chartData.add(_ChartData('$i', values[i - 1] ?? 1));
-  }
-
-  return chartData;
 }

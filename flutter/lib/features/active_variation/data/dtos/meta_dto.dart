@@ -5,11 +5,13 @@ extension MetaDto on MetaEntity {
         regularMarketPrice: json["regularMarketPrice"]?.toDouble(),
         chartPreviousClose: json["chartPreviousClose"]?.toDouble(),
         previousClose: json["previousClose"]?.toDouble(),
+        symbol: json["symbol"],
       );
 
   Map<String, dynamic> toJson() => {
         "regularMarketPrice": regularMarketPrice,
         "chartPreviousClose": chartPreviousClose,
         "previousClose": previousClose,
+        "symbol": symbol,
       };
 }

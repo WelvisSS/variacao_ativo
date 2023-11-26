@@ -1,15 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:variacao_ativo_module/core/data/services/dio_http_service_imp.dart';
-import 'package:variacao_ativo_module/features/active_variation/domain/entities/quote_entity.dart';
+import 'package:variacao_ativo_module/features/active_variation/data/datasources/remote/get_variations_remote_datasource.dart';
+import 'package:variacao_ativo_module/features/active_variation/data/repositories/get_variations_repository_imp.dart';
 import 'package:variacao_ativo_module/features/active_variation/domain/entities/chart_entity.dart';
-import 'package:variacao_ativo_module/features/active_variation/domain/entities/result_entity.dart';
 import 'package:variacao_ativo_module/features/active_variation/domain/entities/finances_entity.dart';
 import 'package:variacao_ativo_module/features/active_variation/domain/entities/indicators_entity.dart';
+import 'package:variacao_ativo_module/features/active_variation/domain/entities/quote_entity.dart';
+import 'package:variacao_ativo_module/features/active_variation/domain/entities/result_entity.dart';
 import 'package:variacao_ativo_module/features/active_variation/domain/usecases/get_variations_usecase.dart';
 import 'package:variacao_ativo_module/features/active_variation/domain/usecases/get_variations_usecase_imp.dart';
-import 'package:variacao_ativo_module/features/active_variation/data/repositories/get_variations_repository_imp.dart';
-import 'package:variacao_ativo_module/features/active_variation/data/datasources/remote/get_variations_remote_datasource.dart';
 
 main() {
   group('Testes de conexão com a API', () {
@@ -24,8 +24,7 @@ main() {
           ),
         ),
       );
-      financesEntity =
-          await getVariationsUseCase("PETR4", 1694545200, 1695150000);
+      financesEntity = await getVariationsUseCase("PETR4");
     });
 
     test('Verifica se um financesEntity está sendo retornado', () async {
