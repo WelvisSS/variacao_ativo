@@ -14,9 +14,16 @@ class ColorsApp {
   // Color get secundary => const Color(0xFF006DA4);
   // Color get backgroundColor => const Color(0xFF032030);
 
+  // Color get primary => const Color(0xFF30C86D);
+  // Color get secundary => const Color(0xFF001711);
+  // Color get backgroundColor => const Color(0xFF00120E);
+
+  // Color get candleNegativeColor => const Color(0xFFFF0000);
+  // Color get candlePositiveColor => const Color(0xFF00FE21);
+
   Color get primary => const Color(0xFF30C86D);
   Color get secundary => const Color(0xFF001711);
-  Color get backgroundColor => const Color(0xFF00120E);
+  Color get backgroundColor => const Color(0xFF021D38);
 
   Color get candleNegativeColor => const Color(0xFFFF0000);
   Color get candlePositiveColor => const Color(0xFF00FE21);
